@@ -5,7 +5,7 @@
 
 # COMMAND ----------
 
-catalog = 'labuser11612924_1758234044'
+catalog = 'labuser11612924_1758377596'
 
 # COMMAND ----------
 
@@ -46,3 +46,11 @@ spark.sql(f"CREATE SCHEMA IF NOT EXISTS {catalog}._ops")
 # COMMAND ----------
 
 spark.sql(f"CREATE VOLUME IF NOT EXISTS {catalog}._ops.autoloader")
+
+# COMMAND ----------
+
+spark.sql(f"CREATE VOLUME IF NOT EXISTS {catalog}._ops.scd2")
+
+# COMMAND ----------
+
+
