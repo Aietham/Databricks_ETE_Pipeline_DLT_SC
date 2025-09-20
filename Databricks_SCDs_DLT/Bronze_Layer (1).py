@@ -56,7 +56,8 @@ f'/Volumes/{catalog}/source/{filename}'
 query = (
   df.writeStream
     .option("checkpointLocation", f"/Volumes/{catalog}/_ops/autoloader/_checkpoints/{filename}")
-    .trigger(availableNow=True) 
+    .trigger(availableNow=True)
+    .outputMode("append")
     .table(f"{catalog}.bronze.{filename}")
 )
 
