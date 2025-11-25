@@ -1,0 +1,15 @@
+resources:
+  pipelines:
+    pipeline_products_ldp:
+      name: Products_LDP
+      libraries:
+        - glob:
+            include: ../src/Products_LDP/transformations/**
+      schema: bronze
+      continuous: false
+      development: false
+      photon: true
+      channel: CURRENT
+      catalog: project
+      serverless: true
+      root_path: ../src/Products_LDP

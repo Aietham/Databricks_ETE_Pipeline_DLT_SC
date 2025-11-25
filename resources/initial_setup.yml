@@ -1,0 +1,48 @@
+resources:
+  jobs:
+    Initial_Setup:
+      name: Initial_Setup
+      tasks:
+        - task_key: Schema_parameters
+          notebook_task:
+            notebook_path: ../src/Initial_setup/Parameters_layers.ipynb
+            source: WORKSPACE
+        - task_key: Creating_schemas
+          depends_on:
+            - task_key: Schema_parameters
+          for_each_task:
+            inputs: "{{tasks.Schema_parameters.values.output_layers}}"
+            task:
+              task_key: Creating_schemas_iteration
+              notebook_task:
+                notebook_path: ../src/Initial_setup/Creating_layers.ipynb
+                base_parameters:
+                  layer_name: "{{input.layer}}"
+                source: WORKSPACE
+        - task_key: Creating_Checkpoints
+          depends_on:
+            - task_key: Creating_schemas
+          notebook_task:
+            notebook_path: ../src/Initial_setup/Creating_checkpoints.ipynb
+            source: WORKSPACE
+        - task_key: Dimensions_parameter
+          depends_on:
+            - task_key: Creating_schemas
+          notebook_task:
+            notebook_path: ../src/Initial_setup/Parameters_filenames.ipynb
+            source: WORKSPACE
+        - task_key: Creating_volumes_over_Dimensions
+          depends_on:
+            - task_key: Dimensions_parameter
+          for_each_task:
+            inputs: "{{tasks.Dimensions_parameter.values.output_datasets}}"
+            task:
+              task_key: Creating_volumes_over_Dimensions_iteration
+              notebook_task:
+                notebook_path: ../src/Initial_setup/Creating_source_volumes.ipynb
+                base_parameters:
+                  file_name: "{{input.filename}}"
+                source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED

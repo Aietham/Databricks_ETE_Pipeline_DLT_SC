@@ -1,0 +1,25 @@
+resources:
+  jobs:
+    customers:
+      name: customers
+      tasks:
+        - task_key: customers_autoloader
+          notebook_task:
+            notebook_path: ../src/Customers/Customer_Autoloader.py
+            base_parameters:
+              filename: customers
+            source: WORKSPACE
+          environment_key: Default
+        - task_key: silver_customers
+          depends_on:
+            - task_key: customers_autoloader
+          notebook_task:
+            notebook_path: ../src/Customers/Silver_customers.ipynb
+            source: WORKSPACE
+      queue:
+        enabled: true
+      environments:
+        - environment_key: Default
+          spec:
+            environment_version: "4"
+      performance_target: PERFORMANCE_OPTIMIZED

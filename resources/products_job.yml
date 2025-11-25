@@ -1,0 +1,22 @@
+resources:
+  jobs:
+    Products_LDP_JOB:
+      name: Products_LDP_JOB
+      trigger:
+        pause_status: UNPAUSED
+        file_arrival:
+          url: /Volumes/project/source/src_products/
+      tasks:
+        - task_key: Products_LDP
+          pipeline_task:
+            pipeline_id: 82908115-2c73-4971-8466-c4e2660413c6
+            full_refresh: false
+        - task_key: Products_Silver
+          depends_on:
+            - task_key: Products_LDP
+          notebook_task:
+            notebook_path: ../src/Products_dim_to_silver.ipynb
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
