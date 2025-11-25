@@ -1,0 +1,14 @@
+resources:
+  jobs:
+    products_job:
+      name: products_job
+      trigger:
+        pause_status: UNPAUSED
+        file_arrival:
+          url: /Volumes/project/source/src_products/
+      tasks:
+        - task_key: products_LDP
+          pipeline_task:
+            pipeline_id: ae81f55c-3413-4373-ac45-64714f5a86af
+      queue:
+        enabled: true

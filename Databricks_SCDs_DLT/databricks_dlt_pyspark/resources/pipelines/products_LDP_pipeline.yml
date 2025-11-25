@@ -1,0 +1,10 @@
+resources:
+  pipelines:
+    pipeline_products_ldp:
+      name: products_LDP
+      libraries:
+        - glob:
+            include: ../../src/Products/transformations/**
+      schema: default
+      catalog: lakehouse_dbx_dev
+      root_path: ../../src/Products
